@@ -7,11 +7,11 @@ import { AppStackParamList } from '../../../Navigation/AppNavigater';
 import { transform } from '@babel/core';
 export interface IUser {
   name: string;
+  details: string;
   price: number;
   category: string;
   thumbnail: string;
 }
-
 const categoryText = () => {
   return <Text style={styles.proList}>Product Details</Text>;
 };
@@ -47,14 +47,10 @@ const productDetails = (route: any) => {
 };
 type ScreenProps = NativeStackScreenProps<AppStackParamList, 'CategoryList'>;
  const CategoryList = ({navigation,route}: ScreenProps) => {
-
   const cartAimation = new Animated.ValueXY({x: 0, y: 0});
-  const fadeAnim = useRef(new Animated.Value(0.3)).current
-
    const [qty, setQty] = useState(0);
-   const [cartData, setCartData] = useState([]);
+   const [cartData, setCartData] =useState([]);
    const [showAddOrIncrease, setShowAddOrIncrease] = useState(false);
-   const [animation, setAnimation] = useState(false);
 
    const goBack = (navigation: any) => {
      return (
@@ -86,7 +82,8 @@ type ScreenProps = NativeStackScreenProps<AppStackParamList, 'CategoryList'>;
        </View>
      );
    };
-   const checkCart = async () => {
+   const checkCart = async (route:any) => {
+    
      await firestore()
        .collection('cartData')
        .onSnapshot(query => {
@@ -110,7 +107,7 @@ type ScreenProps = NativeStackScreenProps<AppStackParamList, 'CategoryList'>;
        });
    };
    useEffect(() => {
-     checkCart();
+     checkCart(route);
    }, []);
 
    const addCartData = async (route: any) => {
@@ -180,7 +177,7 @@ type ScreenProps = NativeStackScreenProps<AppStackParamList, 'CategoryList'>;
          .collection('cartData')
          .doc(`${route?.id}`)
          .update('quentity', firebase.firestore.FieldValue.increment(-1));
-       checkCart();
+       checkCart(route);
      }
    };
    const addQuentityByOne = async (route: any) => {
@@ -242,25 +239,6 @@ type ScreenProps = NativeStackScreenProps<AppStackParamList, 'CategoryList'>;
    };
    return (
      <View style={styles.container}>
-       {/* <TouchableOpacity onPress={animationCode}>
-         <Animated.View
-           style={[
-             {
-               width: 60,
-               height: 60,
-               borderRadius: 30,
-               backgroundColor: 'red',
-               alignItems: 'center',
-               justifyContent: 'center',margin:30
-             },
-             animStyle,
-           ]}>
-           <Text style={{fontWeight: 'bold', color: 'white', fontSize: 32}}>
-             +
-           </Text>
-         </Animated.View>
-       </TouchableOpacity> */}
-
        {goBack(navigation)}
        {categoryText()}
        {productDetails(route)}

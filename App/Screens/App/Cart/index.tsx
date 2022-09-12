@@ -7,18 +7,14 @@ import {
   FlatList,
   RefreshControl,
   Animated,
-  Image,
   Alert,
 } from 'react-native';
 import { navigationRef} from '../../../Navigation/RootNavigation';
 import styles from '../CategoryList/styles';
 import Colors from '../../../Colors';
-import firestore, { firebase } from '@react-native-firebase/firestore'
-import auth from '@react-native-firebase/auth';
-import { DemoList } from '../DemoList';
+import firestore from '@react-native-firebase/firestore'
 import Button from '../../../CommonViewUtilities/Button';
 import { Item } from '../../../CommonViewUtilities/ItemsList';
-
 
 export interface IUser {
   id: string;
@@ -38,10 +34,6 @@ const Cart = () => {
  const diffSetting = Animated.diffClamp(scrollY,0,90)
   const [category, setCategory] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [cartNo, setCartNo] = useState(0);
- 
-
-
   const translateY = diffSetting.interpolate({
     inputRange: [0, 90],
     outputRange: [0, -90],
@@ -50,30 +42,10 @@ const Cart = () => {
     const events = await firestore()
       .collection('cartData')
       .get()
-      .then(res => {
+      .then((res:any) => {
         setCategory(res.docs);
-        console.log('response is ', res.docs);
-        //   res.docs.map(doc => {
-        //     console.log('loging ', doc.data());
-        //     return doc.data()
-        //   });
-      });
-    console.log('second log ', events);
-    // return events;
-
-    // await firestore()
-    //   .collection('cartData')
-    //   .onSnapshot(allData => {
-    //     console.log("alldtacsds ",allData.query)
-    //     const findPost = allData.docs;
-    //     setCartNo(findPost.length);
-    //             const arr = DemoList.map(
-    //               obj => findPost.find(o => o?.data().id === obj.id) || obj,
-    //             );
-    //             console.log("arrrr of ",arr)
-    //     setCategory(arr);
-    //   });
-  };
+        });
+    };
   useEffect(() => {
     checkCart();
   }, []);
@@ -108,34 +80,6 @@ const headerView = () => {
     </Animated.View>
   );
 };
-
-// const renderItem = (items,index) => {
-//   console.log("iteemees ",items)
-//   let item = items?.item;
-//   if (!!items?.item?.data) {
-//     item = items?.item?.data();
-//   }
-//   return (
-//     <View style={[styles.renderTopView, {}]}>
-//       <View style={styles.shadowViewRow}>
-//         <View style={[styles.sshadowViewRow, {}]}>
-//           <View style={styles.imgView}>
-//             <Image source={{uri: item.thumbnail}} style={styles.thumnail} />
-//           </View>
-//           <View style={styles.leftMar}>
-//             <Text style={styles.category}>{item?.category.toUpperCase()}</Text>
-//             <Text style={styles.brand}>{item?.brand.toUpperCase()}</Text>
-//             <Text style={styles.price}>${item.price}</Text>
-//           </View>
-//         </View>
-//         <View style={[styles.touchView, {}]}>
-//           <Text>Quentity : {item.quentity}</Text>
-//         </View>
-//       </View>
-//     </View>
-//   );
-// };
-
   return (
     <View style={styles.container}>
       {headerView()}
@@ -153,13 +97,7 @@ const headerView = () => {
           paddingVertical: 20,
         }}
         data={category}
-        // renderItem={renderItem}
-        // console.log("iteemees ",items)
-        // let item = items?.item;
-        // if (!!items?.item?.data) {
-        //   item = items?.item?.data();
-        // }
-        renderItem={item => {
+        renderItem={(item:any) => {
           let itemss = item?.item;
           if (!!item?.item.data) {
             itemss = item?.item.data();
