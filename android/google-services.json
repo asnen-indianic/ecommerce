@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "575795426716",
+    "project_id": "fir-ecommerceapp-b7a49",
+    "storage_bucket": "fir-ecommerceapp-b7a49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575795426716:android:fcf28c9bbbc3932a220459",
+        "android_client_info": {
+          "package_name": "com.ecommerceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575795426716-iierpquv1ipacf3n8ij7topt6fk9ft5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYeCevKtcJZWBXb1cRre-NIqkxe9VPOjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575795426716-iierpquv1ipacf3n8ij7topt6fk9ft5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "575795426716-dqdinb1v8gif84eioqd5tovho98etbfu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.ECommerceApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
