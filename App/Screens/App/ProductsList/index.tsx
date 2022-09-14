@@ -144,6 +144,7 @@ const increaseByOne = async (item: any) => {
   return (
     <View style={styles.container}>
       <Header
+        title="Product List"
         goBack={() => navigationRef.goBack()}
         cartCallback={() => console.log('Helo cart')}
         translateY={translateY}

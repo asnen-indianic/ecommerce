@@ -6,6 +6,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import {getProduct}from '../../../Api'
 import Colors from '../../../Colors';
 import { navigationRef } from '../../../Navigation/RootNavigation';
+import Header from '../../../CommonViewUtilities/Header';
 const myLoginStatus ='Offline'
 
 interface Props {
@@ -37,15 +38,10 @@ const FBConfig: React.FC<Props> = (props: Props) => {
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
-      <TouchableOpacity onPress={()=>navigationRef.goBack()}
-        style={{
-          position: 'absolute',
-          // backgroundColor: 'red',
-          top: 55,
-          left: 20,
-        }}>
-        <Text>{`<`}</Text>
-      </TouchableOpacity>
+      <Header
+        goBack={() => navigationRef.goBack()}
+        title={'Remote Configration'}
+      />
       <Text
         style={{
           fontSize: 18,
