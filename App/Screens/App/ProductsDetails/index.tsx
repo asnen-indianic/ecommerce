@@ -20,13 +20,6 @@ const capitalize=(str:any)=>
     return str[0].toUpperCase() + str.slice(1);
 }
 
-export interface IUser {
-    id: string;
-    category: string;
-    thumbnail: string;
-    brand: string;
-    price: string;
-  }
 
   type ScreenProps = NativeStackScreenProps<AppStackParamList, 'ProductsDetails'>;
 

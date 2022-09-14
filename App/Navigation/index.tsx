@@ -22,9 +22,7 @@ const MainNavigation: FC = () => {
   }, []);
 
   return (
-    <NavigationContainer
-      // linking={linking}
-      ref={navigationRef}>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {!!user ? (
           <Stack.Screen name="app_navigator" component={AppNavigater} />

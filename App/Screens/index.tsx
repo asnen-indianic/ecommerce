@@ -8,6 +8,8 @@ import UserHomePage from './App/UserHomePage'
 import HeaderWork from './App/AnimationPractice/HeaderWork'
 import ProductsDetails from "./App/ProductsDetails";
 import Cart from "./App/Cart";
+import ScreenSelect from "./App/ScreenSelect";
+
 export {
   Login,
   Signup,
@@ -19,4 +21,5 @@ export {
   UserHomePage,
   ProductsDetails,
   Cart,
+  ScreenSelect,
 };

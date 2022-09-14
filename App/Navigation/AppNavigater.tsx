@@ -1,7 +1,8 @@
 import  React,{FC} from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ProductsList,CategoryList,AddPost,HomePage,UserHomePage, HeaderWork, ProductsDetails,Cart } from '../Screens';
+import { ProductsList,CategoryList,AddPost,HomePage,UserHomePage, HeaderWork, ProductsDetails,Cart, ScreenSelect } from '../Screens';
 import FBConfig from '../Screens/App/FBConfig';
+import Screens from '../Screens/Screens';
 export type AppStackParamList = {
   ProductsList: undefined;
   FBConfig: undefined;
@@ -11,37 +12,40 @@ export type AppStackParamList = {
   UserHomePage: undefined;
   HeaderWork: undefined;
   ProductsDetails: undefined;
-  Cart:undefined
+  Cart:undefined;
+  ScreenSelect:undefined;
   
 };
 const Stack = createNativeStackNavigator<AppStackParamList>()
 const ApphNavigation: FC = () => {
   return (
     <Stack.Navigator
-      initialRouteName="ProductsList"
+      initialRouteName={Screens.ScreenSelect}
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name={'ProductsList'} component={ProductsList} />
-      <Stack.Screen name={'FBConfig'} component={FBConfig} />
+      <Stack.Screen name={Screens.ScreenSelect} component={ScreenSelect} />
+
+      <Stack.Screen name={Screens.ProductsList} component={ProductsList} />
+      <Stack.Screen name={Screens.FBConfig} component={FBConfig} />
       <Stack.Screen
-        name={'CategoryList'}
+        name={Screens.CategoryList}
         component={CategoryList}
       />
-      <Stack.Screen name={'AddPost'} component={AddPost} />
-      <Stack.Screen name={'HomePage'} component={HomePage} />
+      <Stack.Screen name={Screens.AddPost} component={AddPost} />
+      <Stack.Screen name={Screens.HomePage} component={HomePage} />
       <Stack.Screen
-        name={'UserHomePage'}
+        name={Screens.UserHomePage}
         component={UserHomePage}
       />
         <Stack.Screen
-        name={'HeaderWork'}
+        name={Screens.HeaderWork}
         component={HeaderWork}
       />
        <Stack.Screen
-        name={'ProductsDetails'}
+        name={Screens.ProductsDetails}
         component={ProductsDetails}
       />
         <Stack.Screen
-        name={'Cart'}
+        name={Screens.Cart}
         component={Cart}
       />
     </Stack.Navigator>

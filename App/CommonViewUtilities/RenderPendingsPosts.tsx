@@ -17,7 +17,6 @@ const RenderPosts :FC <Props>=(props)=>{
           <Text style={styles.post}>POST</Text>
           <Text style={styles.propPost}>{props?.post}</Text>
         </View>
-
         <Button
           label="Approved"
           onPress={() => {

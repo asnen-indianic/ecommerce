@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from 'react';
 import MainNavigation from './App/Navigation';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
 const App: FC = () => {
+  
   //   const handleDynamicLink = link => {
   //     console.log("getting link:- ", link);
   // setTimeout(()=>{

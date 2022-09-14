@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
+   
   },
   marView: {marginLeft: 20, flex: 1},
   rowView: {
