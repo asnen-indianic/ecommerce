@@ -14,6 +14,8 @@ import Colors from '../../../Colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../../Navigation/AppNavigater';
 import firestore, { firebase } from '@react-native-firebase/firestore'
+import Header from '../../../CommonViewUtilities/Header';
+import { navigationRef } from '../../../Navigation/RootNavigation';
 
 const capitalize=(str:any)=>
 {
@@ -43,34 +45,9 @@ const ProductsDetails = ({navigation,route}:ScreenProps) => {
       }, []);
 const params = route?.params?.details
 const [products, setProduct] = useState(params);
-console.log("pa ra ms-= ",products)
-const headerView=()=>{
-    return (
-      <View
-        style={styles.elev}>
-        <View style={styles.rdView}>
-          <View style={styles.widhView}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.back}>{'<'}</Text>
-            </TouchableOpacity>
-            <Text style={styles.pList}>Product Details</Text>
-            {products?.quentity > 0 && (
-              <Text 
-                style={styles.qty}>
-                Quantity:{products.quentity}
-              </Text>
-            )}
-          </View>
-        </View>
-        {/* <View style={{position:'absolute',right:20,marginTop:80}}> */}
-
-        {/* </View> */}
-      </View>
-    );
-  }
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      {headerView()}
+      <Header title="Product Details" goBack={() => navigationRef.goBack()} />
       <View
         style={{
           backgroundColor: '#e5e5e5',
@@ -125,47 +102,3 @@ const headerView=()=>{
   );
 };
 export default ProductsDetails;
-const styles = StyleSheet.create({
-  rdView: {
-    borderBottomRightRadius: 30,
-    borderBottomLeftRadius: 30,
-    backgroundColor: Colors.darkwhite,
-    alignItems: 'center',
-    height: 90,
-    elevation: 6,
-    zIndex: 999,
-    top: 0,
-    right: 0,
-    left: 0,
-    position: 'absolute',
-  },
-  elev: {
-    elevation: 4,
-    zIndex: 999,
-  },
-  qty: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: Colors.bgColor,
-  },
-  back: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: Colors.bgColor,
-  },
-  widhView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 40,
-    width: '90%',
-  },
-  pList: {
-    // marginTop: 45,
-    position: 'absolute',
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: Colors.bgColor,
-    left: 100,
-  },
-});

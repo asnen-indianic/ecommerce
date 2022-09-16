@@ -1,10 +1,11 @@
 import React ,{} from 'react'
 import { useState } from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert, TextInput} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {CustomInput, Button} from '../../../CommonViewUtilities';
 import user from '../../../assets/user.png'
 import Colors from '../../../Colors';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
 interface Props {
@@ -12,6 +13,9 @@ interface Props {
 }
 
 const Login = ({navigation}: Props) => {
+  const forEmail = React.useRef<any>()
+  const forPass = React.useRef<any>()
+   
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -27,9 +31,21 @@ const validation=()=>{
   } else if (password.length < 6) {
     Alert.alert('Alert', 'Password should be minimum 6 characters');
   } else return true;
-
-  
-
+}
+const login=()=>{
+  if (!!validation()) {
+    console.log('login for thiss ');
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(resp => {
+        console.log('login response ', resp);
+      })
+      .catch(error => {
+        if (error.code === 'auth/user-not-found') {
+          Alert.alert('Alert', 'user not found in database');
+        }
+      });
+  }
 }
 const loginShow = (typeParam: any) => {
   return (
@@ -37,19 +53,7 @@ const loginShow = (typeParam: any) => {
       <Button
         buttonStyle={{backgroundColor: '#00FA9A'}}
         onPress={() => {
-          if (!!validation()) {
-            console.log('login for thiss ');
-            auth()
-              .signInWithEmailAndPassword(email, password)
-              .then(resp => {
-                console.log('login response ', resp);
-              })
-              .catch(error => {
-                if (error.code === 'auth/user-not-found') {
-                  Alert.alert('Alert', 'user not found in database');
-                }
-              });
-          }
+          login();
         }}
         label={typeParam}
         labelStyle={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}
@@ -78,33 +82,48 @@ const signupShow = (typeParam: any) => {
 };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome!</Text>
-      <View style={styles.radiousView}>
-        <CustomInput
-          title={'Email'}
-          img={user}
-          value={email}
-          placeholder="Your Email"
-          placeholderTextColor="gray"
-          onChangeText={email => {
-            setEmail(email);
-          }}
-        />
-        <CustomInput
-          title={'Password'}
-          img={user}
-          value={password}
-          placeholder="Your Password"
-          placeholderTextColor="gray"
-          onChangeText={password => {
-            setPassword(password);
-          }}
-        />
-        {loginShow('Login')}
-        {signupShow('Signup')}
+    <KeyboardAwareScrollView style={{flex: 1}}>
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Welcome!</Text>
+        <View style={styles.radiousView}>
+          <CustomInput
+            autoFocus={true}
+            title={'Email'}
+            inputRef={forEmail}
+            keyboardType={'email-address'}
+            onSubmitEditing={() => {
+              console.log('done from ej'), forPass.current.focus();
+            }}
+            img={user}
+            value={email}
+            placeholder="Your Email"
+            placeholderTextColor="gray"
+            returnKeyType="next"
+            onChangeText={email => {
+              setEmail(email);
+            }}
+          />
+          <CustomInput
+            title={'Password'}
+            secureTextEntry={true}
+            inputRef={forPass}
+            img={user}
+            returnKeyType={'done'}
+            value={password}
+            placeholder="Your Password"
+            placeholderTextColor="gray"
+            onChangeText={password => {
+              setPassword(password);
+            }}
+            onSubmitEditing={()=>{
+              login();
+            }}
+          />
+          {loginShow('Login')}
+          {signupShow('Signup')}
+        </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -131,7 +150,7 @@ const styles = StyleSheet.create({
   heading: {color: Colors.gray, fontWeight: 'bold', fontSize: 18},
   welcome: {
     padding: 20,
-    marginTop: 200,
+    marginTop: 100,
     fontSize: 24,
     color: Colors.white,
     fontWeight: 'bold',

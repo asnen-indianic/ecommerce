@@ -5,13 +5,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import { navigate, navigationRef} from '../../../Navigation/RootNavigation';
 import Colors from '../../../Colors';
 import auth from '@react-native-firebase/auth';
 import Screens from '../../Screens';
-
-
 
 const selectNavigation=(screenName :any)=>{
     navigate(screenName, {});
@@ -43,13 +42,15 @@ const cardView = (key: any, screenName: any) => {
 const ScreenSelect = () => {
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={Colors.darkwhite}/>
       {logout()}
       {cardView('Add To Cart Feature', Screens.ProductsList)}
       {cardView('Firebase Remote', Screens.FBConfig)}
       {cardView('Add post on firebase database', Screens.AddPost)}
-
-
-
+      {/* {cardView(
+        'Push Notifications Implementations',
+        Screens.PushNotifications,
+      )} */}
     </View>
   );
 };

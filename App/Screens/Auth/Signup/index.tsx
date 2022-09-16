@@ -1,12 +1,15 @@
 import React ,{} from 'react'
 import { useState } from 'react';
-import {View, Text, TextInput,StyleSheet, Alert} from 'react-native';
+import {View, Text, TextInput,StyleSheet, Alert, StatusBar} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {CustomInput, Button} from '../../../CommonViewUtilities';
 import user from '../../../assets/user.png'
 import passwords from '../../../assets/password.png'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 import Colors from '../../../Colors';
+import { firebase } from '@react-native-firebase/messaging';
 let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
 interface Props {
@@ -15,40 +18,22 @@ interface Props {
 
 const Signup = ({navigation}: Props) => {
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRepassword] = useState('');
+    
+    const nameRef = React.useRef()
+    const emailRef = React.useRef()
+    const passRef = React.useRef()
+    const rePassRef = React.useRef();
 
 
-const textShow = () => {
-  return (
-    <View style={styles.textShow}>
-      <Text style={styles.heading}>E-Commerce App</Text>
-    </View>
-  );
-};
-// const inputsShow=()=>{
-//     return (
-//       <View style={{marginTop: 75}}>
-//         <CustomInput
-//           value={userName}
-//           placeholder="Enter username"
-//           placeholderTextColor="#000"
-//           onChangeText={name => {
-//             setUserName(name);
-//           }}
-//         />
-//         <CustomInput
-//           value={password}
-//           placeholder="Enter password"
-//           placeholderTextColor="#000"
-//           onChangeText={password => {
-//             setPassword(password);
-//           }}
-//         />
-//       </View>
-//     );
-// }
+
 const validation=()=>{
+  if(!name){
+    Alert.alert('Alert', 'Enter you name');
+    return false;
+  }
   if (!email) {
     Alert.alert('Alert', 'Enter you email-address');
     return false;
@@ -87,14 +72,25 @@ const buttonShow = (typeParam: any) => {
     </View>
   );
 };
+const signup=async()=>{
+  var data;
+          data={
+            name,
+            email,
+        }
+          if (!!validation()) {
+            try {
+              await firebase
+                .firestore()
+                .collection('users')
+                .add(data)
+                .then(suc => {
+                  if (!!suc) {
+                    Alert.alert('', 'Sucessful post data to the firestore!');
+                  }
+                });
+            } catch (err) {}
 
-const signupView = (typeParam: any) => {
-  return (
-    <View style={{marginTop: 10}}>
-      <Button
-        buttonStyle={{backgroundColor: '#00FA9A'}}
-        onPress={() => {
-          if(!!validation()){
             auth()
               .createUserWithEmailAndPassword(email, password)
               .then(() => {
@@ -111,61 +107,92 @@ const signupView = (typeParam: any) => {
                 console.error(error);
               });
           }
-
+}
+const signupView = (typeParam: any) => {
+  return (
+    <View style={{marginTop: 10}}>
+      <StatusBar backgroundColor={Colors.bgColor} />
+      <Button
+        buttonStyle={{backgroundColor: '#00FA9A'}}
+        onPress={() => {
+          signup();
         }}
         label={typeParam}
         labelStyle={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}
-
       />
     </View>
   );
 };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome!</Text>
-      <View style={styles.radiousView}>
-        <CustomInput
-          title={'Email'}
-          img={user}
-          value={email}
-          placeholder="Your Email"
-          placeholderTextColor="gray"
-          onChangeText={email => {
-            setEmail(email);
+    <KeyboardAwareScrollView style={{flex:1}}>
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Welcome!</Text>
+        <View style={styles.radiousView}>
+          <CustomInput
+            autoFocus={true}
+            onSubmitEditing={()=>{
+              emailRef?.current?.focus();
+            }}
+            title={'Name'}
+            img={user}
+            value={name}
+            placeholder="Your Name"
+            placeholderTextColor="gray"
+            onChangeText={name => {
+              setName(name);
+            }}
+          />
+          <CustomInput
+          inputRef={emailRef}
+          onSubmitEditing={()=>{
+            passRef.current?.focus()
           }}
-        />
-        <CustomInput
-          secureTextEntry={true}
-          title={'Password'}
-          img={passwords}
-          value={password}
-          placeholder="Your Password"
-          placeholderTextColor="gray"
-          onChangeText={password => {
-            setPassword(password);
+            title={'Email'}
+            img={user}
+            value={email}
+            placeholder="Your Email"
+            placeholderTextColor="gray"
+            onChangeText={email => {
+              setEmail(email);
+            }}
+          />
+          <CustomInput
+          inputRef={passRef}
+          onSubmitEditing={()=>{
+            rePassRef?.current?.focus();
           }}
-        />
-        <CustomInput
-          secureTextEntry={true}
-          title={'Password'}
-          img={passwords}
-          value={rePassword}
-          placeholder="re-enter password"
-          placeholderTextColor="gray"
-          onChangeText={Repassword => {
-            setRepassword(Repassword);
+            secureTextEntry={true}
+            title={'Password'}
+            img={passwords}
+            value={password}
+            placeholder="Your Password"
+            placeholderTextColor="gray"
+            onChangeText={password => {
+              setPassword(password);
+            }}
+          />
+          <CustomInput
+          inputRef={rePassRef}
+          onSubmitEditing={()=>{
+            signup();
+
           }}
-        />
-        {signupView('Signup')}
-        {buttonShow('Login')}
+            secureTextEntry={true}
+            title={'Password'}
+            img={passwords}
+            value={rePassword}
+            placeholder="re-enter password"
+            placeholderTextColor="gray"
+            onChangeText={Repassword => {
+              setRepassword(Repassword);
+            }}
+          />
+          {signupView('Signup')}
+          {buttonShow('Login')}
+        </View>
       </View>
-      {/* {textShow()} */}
-      {/* {inputsShow()}
-      {buttonShow('Login')}
-      <Text style={styles.dontA}>Don't have account, Please signup</Text>
-      {buttonShow('Signup')} */}
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -192,7 +219,7 @@ const styles = StyleSheet.create({
   heading: {color: Colors.gray, fontWeight: 'bold', fontSize: 18},
   welcome: {
     padding: 20,
-    marginTop: 200,
+    marginTop: 100,
     fontSize: 24,
     color: Colors.white,
     fontWeight: 'bold',

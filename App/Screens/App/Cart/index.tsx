@@ -15,6 +15,7 @@ import Colors from '../../../Colors';
 import firestore from '@react-native-firebase/firestore'
 import Button from '../../../CommonViewUtilities/Button';
 import { Item } from '../../../CommonViewUtilities/ItemsList';
+import Header from '../../../CommonViewUtilities/Header';
 
 export interface IUser {
   id: string;
@@ -49,40 +50,13 @@ const Cart = () => {
   useEffect(() => {
     checkCart();
   }, []);
-const headerView = () => {
-  return (
-    <Animated.View
-      style={{
-        elevation: 4,
-        zIndex: 999,
-        transform: [{translateY: translateY}],
-      }}>
-      <View style={[styles.rdView, {}]}>
-        <TouchableOpacity
-          onPress={() => navigationRef.goBack()}
-          style={{
-            position: 'absolute',
-            top: 50,
-            left: 30,
-          }}>
-          <Text
-            style={{
-              alignSelf: 'center',
-              fontWeight: 'bold',
-              fontSize: 20,
-              color: Colors.bgColor,
-            }}>
-            {'<'}
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.pList}>Cart List</Text>
-      </View>
-    </Animated.View>
-  );
-};
   return (
     <View style={styles.container}>
-      {headerView()}
+      <Header
+        title="Cart List"
+        goBack={() => navigationRef.goBack()}
+        translateY={translateY}
+      />
       <FlatList
         bounces={false}
         onScroll={callback => {
@@ -97,7 +71,7 @@ const headerView = () => {
           paddingVertical: 20,
         }}
         data={category}
-        renderItem={(item:any) => {
+        renderItem={(item: any) => {
           let itemss = item?.item;
           if (!!item?.item.data) {
             itemss = item?.item.data();

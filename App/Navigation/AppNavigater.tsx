@@ -1,6 +1,17 @@
 import  React,{FC} from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ProductsList,CategoryList,AddPost,HomePage,UserHomePage, HeaderWork, ProductsDetails,Cart, ScreenSelect } from '../Screens';
+import {
+  ProductsList,
+  CategoryList,
+  AddPost,
+  HomePage,
+  PushNotifications,
+  UserHomePage,
+  HeaderWork,
+  ProductsDetails,
+  Cart,
+  ScreenSelect,
+} from '../Screens';
 import FBConfig from '../Screens/App/FBConfig';
 import Screens from '../Screens/Screens';
 export type AppStackParamList = {
@@ -14,6 +25,7 @@ export type AppStackParamList = {
   ProductsDetails: undefined;
   Cart:undefined;
   ScreenSelect:undefined;
+  PushNotifications:undefined;
   
 };
 const Stack = createNativeStackNavigator<AppStackParamList>()
@@ -47,6 +59,10 @@ const ApphNavigation: FC = () => {
         <Stack.Screen
         name={Screens.Cart}
         component={Cart}
+      />
+       <Stack.Screen
+        name={Screens.PushNotifications}
+        component={PushNotifications}
       />
     </Stack.Navigator>
   );

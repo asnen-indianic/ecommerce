@@ -11,7 +11,7 @@ interface Props {
 const RenderPendingsPosts :FC <Props>=(props)=>{
     return (
       <View style={styles.container}>
-       <View style={styles.rowView}>
+       <View>
           <Text style={styles.post}>POST</Text>
           <Text style={styles.propPost}>{props?.post}</Text>
         </View>

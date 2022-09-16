@@ -14,6 +14,7 @@ import styles from '../CategoryList/styles';
 import firestore, { firebase } from '@react-native-firebase/firestore'
 import { DemoList } from '../DemoList';
 import Header from '../../../CommonViewUtilities/Header';
+import Screens from '../../Screens';
 export interface IUser {
   id: string;
   category: string;
@@ -119,14 +120,7 @@ const increaseByOne = async (item: any) => {
             </View>
           </View>
           <View style={[styles.touchView, {}]}>
-            <TouchableOpacity
-              onPress={async () => {
-                addFTAndLTCart(item);
-              }}
-              style={styles.addCartTouch}>
-              <Text style={styles.plus}>+</Text>
-            </TouchableOpacity>
-            {item?.cart && (
+          {item?.cart && (
               <TouchableOpacity
                 onPress={() => {
                   increaseByOne(item);
@@ -135,6 +129,14 @@ const increaseByOne = async (item: any) => {
                 <Text style={styles.plus}>-</Text>
               </TouchableOpacity>
             )}
+            <TouchableOpacity
+              onPress={async () => {
+                addFTAndLTCart(item);
+              }}
+              style={styles.addCartTouch}>
+              <Text style={styles.plus}>+</Text>
+            </TouchableOpacity>
+           
           </View>
         </View>
       </TouchableOpacity>
@@ -146,7 +148,7 @@ const increaseByOne = async (item: any) => {
       <Header
         title="Product List"
         goBack={() => navigationRef.goBack()}
-        cartCallback={() => console.log('Helo cart')}
+        cartCallback={() => navigate(Screens.Cart,{})}
         translateY={translateY}
         cartNo={cartNo}
       />
@@ -158,7 +160,7 @@ const increaseByOne = async (item: any) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        contentContainerStyle={{marginLeft: 5, marginTop: 90}}
+        contentContainerStyle={{marginLeft: 5, paddingTop: 100}}
         data={category}
         renderItem={renderItem}
         keyExtractor={(item: IUser) => item.id}

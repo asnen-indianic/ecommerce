@@ -8,25 +8,65 @@ import {
   ViewStyle,
   Image,
   ImageSourcePropType,
+  ReturnKeyType,
+  GestureResponderEvent,
 } from 'react-native';
 import {StyleSheet} from 'react-native';
 import Colors from '../Colors';
 
 interface Input {
+  inputRef?: any;
   placeholder: string;
   value: string;
   placeholderTextColor: string;
+  onSubmitEditing?: () => void;
   onChangeText: (text: string) => void;
   img?: ImageSourcePropType;
   style?: StyleProp<ViewStyle>;
   title: string;
   secureTextEntry?: boolean;
+  autoFocus?: boolean;
+  keyboardType?:
+    | 'default'
+    | 'email-address'
+    | 'numeric'
+    | 'phone-pad'
+    | 'number-pad'
+    | 'decimal-pad';
+  returnKeyType?:
+    | 'none'
+    | 'done'
+    | 'search'
+    | 'default'
+    | 'go'
+    | 'next'
+    | 'send'
+    | 'previous'
+    | 'google'
+    | 'join'
+    | 'route'
+    | 'yahoo'
+    | 'emergency-call';
 }
 interface Styles {
   inputStyle?: ViewStyle;
 }
 
 const CustomInput: FC<Input> = props => {
+  const {
+    onSubmitEditing,
+    returnKeyType,
+    secureTextEntry,
+    title,
+    style,
+    img,
+    onChangeText,
+    placeholderTextColor,
+    value,
+    placeholder,
+    keyboardType,
+    autoFocus
+  } = props;
   return (
     <View style={{marginHorizontal: 20, marginTop: 20}}>
       {true && (
@@ -37,7 +77,7 @@ const CustomInput: FC<Input> = props => {
             fontWeight: '400',
             marginBottom: 5,
           }}>
-          {props.title}
+          {title}
         </Text>
       )}
       <View
@@ -46,15 +86,22 @@ const CustomInput: FC<Input> = props => {
           alignItems: 'center',
           marginBottom: 15,
         }}>
-        {props?.img && <Image  source={props.img} />}
+        {img && <Image source={img} />}
         <TextInput
-        secureTextEntry={props.secureTextEntry}
-          maxLength={20}
-          placeholderTextColor={props?.placeholderTextColor}
-          placeholder={props.placeholder}
-          onChangeText={props.onChangeText}
-          value={props.value}
-          style={styles.inputStyle}
+          autoCorrect={false}
+          ref={props.inputRef}
+          secureTextEntry={secureTextEntry}
+          onSubmitEditing={onSubmitEditing}
+          autoCapitalize={'none'}
+          autoFocus={autoFocus}
+          blurOnSubmit={false}
+          keyboardType={keyboardType}
+          returnKeyType={returnKeyType}
+          placeholderTextColor={placeholderTextColor}
+          placeholder={placeholder}
+          onChangeText={onChangeText}
+          value={value}
+          style={[{color: 'gray'}, styles.inputStyle]}
         />
       </View>
     </View>
@@ -64,6 +111,9 @@ CustomInput.defaultProps = {
   placeholder: '',
   placeholderTextColor: Colors.cGray,
   style: {},
+  keyboardType: 'default',
+  returnKeyType: 'done',
+  autoFocus:false,
 };
 const styles = StyleSheet.create<Styles>({
   inputStyle: {

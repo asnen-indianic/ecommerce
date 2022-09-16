@@ -9,5 +9,6 @@ const Screens = {
   HeaderWork: 'HeaderWork',
   ProductsDetails: 'ProductsDetails',
   Cart: 'Cart',
+  PushNotifications: 'PushNotifications',
 };
 export default Screens

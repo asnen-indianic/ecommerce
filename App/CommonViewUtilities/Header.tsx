@@ -1,5 +1,5 @@
 import React,{FC} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Animated, Platform} from 'react-native';
 import Colors from "../Colors";
 interface Props {
   goBack: () => void;
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   absTouch: {
     position: 'absolute',
-    top: 50,
+    top: Platform.OS == 'android' ? 25 : 50,
     left: 30,
   },
   back: {
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
     color: Colors.bgColor,
   },
   pList: {
-    marginTop: 50,
+    marginTop: Platform.OS == 'android' ? 25 : 50,
+
     alignSelf: 'center',
     fontWeight: 'bold',
     fontSize: 20,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: Colors.bgColor,
     borderRadius: 100,
-    marginTop: 45,
+    marginTop: Platform.OS == 'android' ? 20 : 45,
     right: 10,
   },
   cartNo: {
