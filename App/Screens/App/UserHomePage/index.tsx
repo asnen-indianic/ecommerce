@@ -1,14 +1,16 @@
 import React ,{ FC, useEffect,} from 'react'
 import { useState } from 'react';
-import {View, Text,StyleSheet, TextInput, TouchableOpacity, FlatList, Alert, Image} from 'react-native';
-import {Button, RenderPost,} from '../../../CommonViewUtilities'
+import {View, Text,StyleSheet, TextInput, TouchableOpacity, FlatList, Alert, Image, StatusBar, Animated} from 'react-native';
+import {Button, RenderPendingsPosts, RenderPost,} from '../../../CommonViewUtilities'
 import firestore from '@react-native-firebase/firestore'
 import { firebase } from '@react-native-firebase/auth';
 import Colors from '../../../Colors';
+import Header from '../../../CommonViewUtilities/Header';
 
 
 const UserHomePage: FC = (props:any) => {
   const [post, setPost] = useState<any>(null);
+  
   const fetchPosts = async () => {
         firestore()
           .collection('posts')
@@ -21,53 +23,49 @@ const UserHomePage: FC = (props:any) => {
   useEffect(() => {
     fetchPosts();
   }, []);
+  const listEmpty=()=>{
+    return (
+      <Text style={{marginTop: 200, alignSelf: 'center', color: 'white'}}>
+        No post found
+      </Text>
+    );
+  }
   return (
     <View style={styles.container}>
-      <Button
-        buttonStyle={styles.btnStyle}
-        labelStyle={styles.lableStyle}
-        onPress={() => props.navigation.goBack()}
-        label="GoBack"
-      />
-      <View style={{height: '50%'}}>
-        <FlatList
-          data={post}
-          renderItem={({item}) => {
-            console.log("item data is ",item?.data())
-            return (
-              <RenderPost
-                approved={item?.isApproved}
-                post={item?.data().post}
-              />
-            );
-          }}
-          ListEmptyComponent={() => {
-            return (
-              <View style={{flex: 1}}>
-                <Text>No data found</Text>
-              </View>
-            );
-          }}
+    <StatusBar backgroundColor={Colors.bgColor} />
+    <Header simpleView={true} />
+    <FlatList
+      ListEmptyComponent={listEmpty()}
+      contentContainerStyle={{paddingTop: 10}}
+      data={post}
+      renderItem={({item}) => (
+        <RenderPendingsPosts
+          approved={item?.isApproved}
+          post={item?.data().post}
         />
-      </View>
-    </View>
+      )}
+    />
+  </View>
   );
 };
 
 export default UserHomePage
-const styles=StyleSheet.create({
-  container:{
+const styles = StyleSheet.create({
+  headerView: {height: 45, justifyContent: 'center'},
+  container: {
     flex: 1,
-    backgroundColor: Colors.darkwhite,
+    backgroundColor: Colors.bgColor,
   },
+  img: {height: 25, width: 30, tintColor: Colors.white},
+  touchLeft: {marginLeft: 20},
   btnStyle: {
     backgroundColor: Colors.bgColor,
-    marginHorizontal: 100,
     borderRadius: 20,
+    width: 120,
   },
   lableStyle: {
     color: Colors.darkwhite,
     fontWeight: 'bold',
     fontSize: 18,
   },
-})
+});

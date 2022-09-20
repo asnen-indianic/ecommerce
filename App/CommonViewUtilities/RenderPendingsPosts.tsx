@@ -7,8 +7,8 @@ const {width,height}=Dimensions.get('screen')
 interface Props {
   post: string;
   approved: string;
-  onApprove: () => void;
-  onReject: () => void;
+  onApprove?: () => void;
+  onReject?: () => void;
 }
 const RenderPosts :FC <Props>=(props)=>{
     return (
@@ -17,20 +17,22 @@ const RenderPosts :FC <Props>=(props)=>{
         <View style={styles.rowView}>
           <Text style={styles.propPost}>{props?.post}</Text>
         </View>
-        <Button
-          buttonStyle={styles.btnStyle}
-          labelStyle={styles.lableStyle}
-          label="Approved"
-          onPress={() => {
-            props?.onApprove();
-          }}
-        />
-        <Button
-          buttonStyle={styles.btnStyle}
-          labelStyle={styles.lableStyle}
-          label="Reject"
-          onPress={() => props?.onReject()}
-        />
+        {props?.onApprove && (
+          <Button
+            buttonStyle={styles.btnStyle}
+            labelStyle={styles.lableStyle}
+            label="Approved"
+            onPress={()=>{props?.onApprove()}}
+          />
+        )}
+        {props?.onReject && (
+          <Button
+            buttonStyle={styles.btnStyle}
+            labelStyle={styles.lableStyle}
+            label="Reject"
+            onPress={() => props.onReject()}
+          />
+        )}
       </View>
     );
 }
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     width: width / 1.1,
-    minHeight: 200,
+    minHeight: 50,
     alignSelf: 'center',
     marginVertical: 10,
     borderRadius: 10,

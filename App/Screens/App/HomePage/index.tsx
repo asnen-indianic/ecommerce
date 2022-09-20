@@ -6,7 +6,6 @@ import firestore from '@react-native-firebase/firestore'
 import Colors from '../../../Colors';
 import { Animated } from 'react-native';
 import Header from '../../../CommonViewUtilities/Header';
-import back from '../../../assets/back.png'
 
 const HomePage: FC = (props:any) => {
   const [post, setPost] = useState<any>(null);
