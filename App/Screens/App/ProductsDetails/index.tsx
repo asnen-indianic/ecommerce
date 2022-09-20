@@ -9,6 +9,7 @@ import {
   Animated,
   StyleSheet,
   Image,
+  ToastAndroid,
 } from 'react-native';
 import Colors from '../../../Colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -16,7 +17,9 @@ import { AppStackParamList } from '../../../Navigation/AppNavigater';
 import firestore, { firebase } from '@react-native-firebase/firestore'
 import Header from '../../../CommonViewUtilities/Header';
 import { navigationRef } from '../../../Navigation/RootNavigation';
-
+import Clipboard from '@react-native-clipboard/clipboard';
+import Toast from 'react-native-toast-message'
+import dynamicLinks from '@react-native-firebase/dynamic-links'
 const capitalize=(str:any)=>
 {
     return str[0].toUpperCase() + str.slice(1);
@@ -45,10 +48,48 @@ const ProductsDetails = ({navigation,route}:ScreenProps) => {
       }, []);
 const params = route?.params?.details
 const [products, setProduct] = useState(params);
+
+const dynamicEventLink = async () => {
+  const link = await dynamicLinks().buildShortLink(
+    {
+      link: `https://ecommercedummy.page.link`,
+      domainUriPrefix: `https://ecommercedummy.page.link`,
+      navigation: {
+        forcedRedirectEnabled: true,
+      },
+      analytics: {
+        campaign: 'banner',
+      },
+      android: {
+        packageName: 'com.ecommerceapp',
+        fallbackUrl: 'https://play.google.com/',
+      },
+      // ios: {
+      //     bundleId: "com.banner",
+      //     fallbackUrl: "banner"
+      // }
+    },
+    dynamicLinks.ShortLinkType.UNGUESSABLE,
+  );
+  // return link;
+  Clipboard.setString(link)
+
+}
+
+
+
+
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Header title="Product Details" goBack={() => navigationRef.goBack()} />
-      <View
+      <TouchableOpacity onPress={()=>{
+  dynamicEventLink()
+        // Clipboard.setString(`${dynamicEventLink()}`)
+        
+        ToastAndroid.show('Copy Clipboard', ToastAndroid.LONG);
+
+        console.log("cli")
+      }}
         style={{
           backgroundColor: '#e5e5e5',
           marginTop: 120,
@@ -97,7 +138,7 @@ const [products, setProduct] = useState(params);
             </Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

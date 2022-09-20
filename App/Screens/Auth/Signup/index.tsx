@@ -6,7 +6,7 @@ import {CustomInput, Button} from '../../../CommonViewUtilities';
 import user from '../../../assets/user.png'
 import passwords from '../../../assets/password.png'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { firebaseGoogleSign, loginWithGoogle } from '../../../utils/Social/GoogleSignManager';
 
 import Colors from '../../../Colors';
 import { firebase } from '@react-native-firebase/messaging';
@@ -53,6 +53,20 @@ const validation=()=>{
     return false;
   } else return true;
 }
+const googleLogin =()=>{
+  let googleLoginResponse;
+  loginWithGoogle(response => {
+    googleLoginResponse = response;
+    console.log('response is ', response);
+    firebaseGoogleSign(googleLoginResponse.googleCredential)
+      .then(res => {
+        console.log('let me show response isss ', res);
+      })
+      .catch(error => {
+        console.log('firebase error is ', error);
+      });
+  });
+}
 const buttonShow = (typeParam: any) => {
   return (
     <View style={{marginTop: 0}}>
@@ -63,7 +77,14 @@ const buttonShow = (typeParam: any) => {
           borderColor: Colors.bgColor,
         }}
         onPress={() => {
-          navigation.navigate('Login');         
+          if(typeParam=='Login'){
+            navigation.navigate('Login');         
+
+          }
+          else{
+            googleLogin()
+            console.log("google login")
+          }
         }}
         label={typeParam}
         labelStyle={{fontSize: 18, color: Colors.bgColor, fontWeight: 'bold'}}
@@ -125,13 +146,13 @@ const signupView = (typeParam: any) => {
 };
 
   return (
-    <KeyboardAwareScrollView style={{flex:1}}>
+    <KeyboardAwareScrollView style={{flex: 1}}>
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome!</Text>
         <View style={styles.radiousView}>
           <CustomInput
             autoFocus={true}
-            onSubmitEditing={()=>{
+            onSubmitEditing={() => {
               emailRef?.current?.focus();
             }}
             title={'Name'}
@@ -144,10 +165,10 @@ const signupView = (typeParam: any) => {
             }}
           />
           <CustomInput
-          inputRef={emailRef}
-          onSubmitEditing={()=>{
-            passRef.current?.focus()
-          }}
+            inputRef={emailRef}
+            onSubmitEditing={() => {
+              passRef.current?.focus();
+            }}
             title={'Email'}
             img={user}
             value={email}
@@ -158,10 +179,10 @@ const signupView = (typeParam: any) => {
             }}
           />
           <CustomInput
-          inputRef={passRef}
-          onSubmitEditing={()=>{
-            rePassRef?.current?.focus();
-          }}
+            inputRef={passRef}
+            onSubmitEditing={() => {
+              rePassRef?.current?.focus();
+            }}
             secureTextEntry={true}
             title={'Password'}
             img={passwords}
@@ -173,11 +194,10 @@ const signupView = (typeParam: any) => {
             }}
           />
           <CustomInput
-          inputRef={rePassRef}
-          onSubmitEditing={()=>{
-            signup();
-
-          }}
+            inputRef={rePassRef}
+            onSubmitEditing={() => {
+              signup();
+            }}
             secureTextEntry={true}
             title={'Password'}
             img={passwords}
@@ -190,6 +210,10 @@ const signupView = (typeParam: any) => {
           />
           {signupView('Signup')}
           {buttonShow('Login')}
+          {buttonShow('Google Login')}
+
+          {/* {buttonShow('Login')} */}
+
         </View>
       </View>
     </KeyboardAwareScrollView>

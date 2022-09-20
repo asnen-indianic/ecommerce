@@ -1,38 +1,67 @@
 import React,{FC} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Animated, Platform} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Animated,
+  Platform,
+} from 'react-native';
 import Colors from "../Colors";
+import back from '../assets/back.png'
+
+
+import {navigationRef} from '../Navigation/RootNavigation'
+
 interface Props {
-  goBack: () => void;
+  goBack?: () => void;
   translateY?: object;
   cartNo?: number;
+  simpleView?: Boolean;
   cartCallback?: () => void;
-  title: string;
+  title?: string;
+  
 }
+
 
 const Header :FC <Props>=(props)=>{
   const childView=()=>{
-    return(
+    return (
       <View style={[styles.rdView, {}]}>
-      <TouchableOpacity
-        onPress={() => props.goBack()}
-        style={styles.absTouch}>
-        <Text 
-          style={styles.back}>
-          {`<`}
-        </Text>
-      </TouchableOpacity>
-      <Text style={styles.pList}>{props.title}</Text>
-      {props.cartNo > 0 && (
         <TouchableOpacity
-          onPress={() =>props.cartCallback()}
-          style={styles.headerAbs}>
-          <Text style={styles.cartNo}>Cart :{props.cartNo}</Text>
+          onPress={() => navigationRef.goBack()}
+          style={styles.absTouch}>
+          {imageReturn()}
         </TouchableOpacity>
-      )}
-    </View>
-    )
+        <Text style={styles.pList}>{props.title}</Text>
+        {props.cartNo > 0 && (
+          <TouchableOpacity
+            onPress={() => props.cartCallback()}
+            style={styles.headerAbs}>
+            <Text style={styles.cartNo}>Cart :{props.cartNo}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
   }
- return !!props?.translateY ? (
+  const imageReturn=()=>{
+    return (
+      <Image
+        style={{height: 25, width: 30, tintColor: Colors.white}}
+        source={back}
+      />
+    );
+  }
+ return props?.simpleView ? (
+   <View style={styles.headerView}>
+     <TouchableOpacity
+       onPress={() => navigationRef.goBack()}
+       style={{marginLeft: 20}}>
+     {imageReturn()}
+     </TouchableOpacity>
+   </View>
+ ) : !!props?.translateY ? (
    <Animated.View
      style={{
        elevation: 4,
@@ -50,7 +79,11 @@ const styles = StyleSheet.create({
   elevation: {
     elevation: 4,
     zIndex: 999,
+    img: {height: 25, width: 30, tintColor: Colors.white},
+    touchLeft: {marginLeft: 20},
   },
+  headerView: {height: 45, justifyContent: 'center'},
+
   absTouch: {
     position: 'absolute',
     top: Platform.OS == 'android' ? 25 : 50,
