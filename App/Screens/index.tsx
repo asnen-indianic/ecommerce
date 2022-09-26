@@ -9,7 +9,7 @@ import HeaderWork from './App/AnimationPractice/HeaderWork'
 import ProductsDetails from "./App/ProductsDetails";
 import Cart from "./App/Cart";
 import ScreenSelect from "./App/ScreenSelect";
-import PushNotifications from "./App/PushNotifications";
+import Chat from "./App/Chat";
 
 export {
   Login,
@@ -23,5 +23,5 @@ export {
   ProductsDetails,
   Cart,
   ScreenSelect,
-  PushNotifications,
+  Chat,
 };

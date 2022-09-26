@@ -41,7 +41,7 @@ const HomePage: FC = (props:any) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={Colors.bgColor} />
-      <Header simpleView={true} />
+      <Header tintColor={Colors.white} simpleView={true} />
       <FlatList
         onScroll={callback => {
           scrollY.setValue(callback.nativeEvent.contentOffset.y);

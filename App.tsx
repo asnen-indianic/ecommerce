@@ -10,14 +10,7 @@ const App: FC = () => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      offlineAccess: false,
-      hostedDomain: '',
-      forceCodeForRefreshToken: true,
-      accountName: '',
-      scopes: ['profile', 'email'],
-      androidClientId:'575795426716-varmedokso4bljqir8da107lgg2r4s31.apps.googleusercontent.com',
-      webClientId:
-        '575795426716-iierpquv1ipacf3n8ij7topt6fk9ft5j.apps.googleusercontent.com',
+      webClientId: '575795426716-dqdinb1v8gif84eioqd5tovho98etbfu.apps.googleusercontent.com',
     });
  
     // configureGoogle()
@@ -29,7 +22,7 @@ const App: FC = () => {
   const handleDynamicLink = link => {
     console.log("linking is ",link)
   // Handle dynamic link inside your own application
-  if (link.url === 'https://invertase.io/offer') {
+  if (link.url) {
     // ...navigate to your offers screen
   }
 };

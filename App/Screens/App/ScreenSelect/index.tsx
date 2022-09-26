@@ -47,10 +47,10 @@ const ScreenSelect = () => {
       {cardView('Add To Cart Feature', Screens.ProductsList)}
       {cardView('Firebase Remote', Screens.FBConfig)}
       {cardView('Add post on firebase database', Screens.AddPost)}
-      {/* {cardView(
-        'Push Notifications Implementations',
-        Screens.PushNotifications,
-      )} */}
+      {cardView(
+        'Chat',
+        Screens.Chat,
+      )}
     </View>
   );
 };

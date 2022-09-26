@@ -32,20 +32,20 @@ const UserHomePage: FC = (props:any) => {
   }
   return (
     <View style={styles.container}>
-    <StatusBar backgroundColor={Colors.bgColor} />
-    <Header simpleView={true} />
-    <FlatList
-      ListEmptyComponent={listEmpty()}
-      contentContainerStyle={{paddingTop: 10}}
-      data={post}
-      renderItem={({item}) => (
-        <RenderPendingsPosts
-          approved={item?.isApproved}
-          post={item?.data().post}
-        />
-      )}
-    />
-  </View>
+      <StatusBar backgroundColor={Colors.bgColor} />
+      <Header tintColor={Colors.white} simpleView={true} />
+      <FlatList
+        ListEmptyComponent={listEmpty()}
+        contentContainerStyle={{paddingTop: 10}}
+        data={post}
+        renderItem={({item}) => (
+          <RenderPendingsPosts
+            approved={item?.isApproved}
+            post={item?.data().post}
+          />
+        )}
+      />
+    </View>
   );
 };
 

@@ -38,7 +38,7 @@ const FBConfig: React.FC<Props> = (props: Props) => {
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
-      <Header
+      <Header 
         goBack={() => navigationRef.goBack()}
         title={'Remote Configration'}
       />

@@ -86,7 +86,7 @@ const CustomInput: FC<Input> = props => {
           alignItems: 'center',
           marginBottom: 15,
         }}>
-        {img && <Image source={img} />}
+        {img && <Image style={{height:20,width:20}} source={img} />}
         <TextInput
           autoCorrect={false}
           ref={props.inputRef}

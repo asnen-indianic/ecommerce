@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Alert, TextInput} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {CustomInput, Button} from '../../../CommonViewUtilities';
 import user from '../../../assets/user.png'
+import _email from '../../../assets/mail.png'
 import Colors from '../../../Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -94,7 +95,7 @@ const signupShow = (typeParam: any) => {
             onSubmitEditing={() => {
               console.log('done from ej'), forPass.current.focus();
             }}
-            img={user}
+            img={_email}
             value={email}
             placeholder="Your Email"
             placeholderTextColor="gray"

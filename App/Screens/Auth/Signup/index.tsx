@@ -4,6 +4,8 @@ import {View, Text, TextInput,StyleSheet, Alert, StatusBar} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {CustomInput, Button} from '../../../CommonViewUtilities';
 import user from '../../../assets/user.png'
+import _email from '../../../assets/mail.png'
+
 import passwords from '../../../assets/password.png'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebaseGoogleSign, loginWithGoogle } from '../../../utils/Social/GoogleSignManager';
@@ -170,7 +172,7 @@ const signupView = (typeParam: any) => {
               passRef.current?.focus();
             }}
             title={'Email'}
-            img={user}
+            img={_email}
             value={email}
             placeholder="Your Email"
             placeholderTextColor="gray"

@@ -5,7 +5,7 @@ import {
   CategoryList,
   AddPost,
   HomePage,
-  PushNotifications,
+  Chat,
   UserHomePage,
   HeaderWork,
   ProductsDetails,
@@ -25,7 +25,7 @@ export type AppStackParamList = {
   ProductsDetails: undefined;
   Cart:undefined;
   ScreenSelect:undefined;
-  PushNotifications:undefined;
+  Chat:undefined;
   
 };
 const Stack = createNativeStackNavigator<AppStackParamList>()
@@ -61,8 +61,8 @@ const ApphNavigation: FC = () => {
         component={Cart}
       />
        <Stack.Screen
-        name={Screens.PushNotifications}
-        component={PushNotifications}
+        name={Screens.Chat}
+        component={Chat}
       />
     </Stack.Navigator>
   );

@@ -21,7 +21,7 @@ interface Props {
   simpleView?: Boolean;
   cartCallback?: () => void;
   title?: string;
-  
+  tintColor?: string;
 }
 
 
@@ -48,7 +48,7 @@ const Header :FC <Props>=(props)=>{
   const imageReturn=()=>{
     return (
       <Image
-        style={{height: 25, width: 30, tintColor: Colors.white}}
+        style={{height: 25, width: 30, tintColor: props.tintColor}}
         source={back}
       />
     );
@@ -75,6 +75,9 @@ const Header :FC <Props>=(props)=>{
  );
 }
 export default Header
+Header.defaultProps = {
+  tintColor: Colors.bgColor,
+};
 const styles = StyleSheet.create({
   elevation: {
     elevation: 4,
